@@ -442,14 +442,12 @@ void SystemTask::Work() {
               settingsController.SetPendingBleDisconnectAlert(true);
               settingsController.SetLastBleDisconnect(dateTimeController.Uptime().count());
               break;
-            } else if (dateTimeController.Uptime().count() - settingsController.GetLastBleDisconnect() > 300) {
-              // timeout reached. disable timeout check and continue to send alert
-              settingsController.SetPendingBleDisconnectAlert(false);
-            } else {
+            } else if (dateTimeController.Uptime().count() - settingsController.GetLastBleDisconnect() < 300) {
               // timeout not reached. check again next minute
               break;
             }
           }
+          settingsController.SetPendingBleDisconnectAlert(false);
           if (settingsController.GetBleDisconnectAlertOption() != Controllers::Settings::BleDisconnectAlertOption::Off) {
             Pinetime::Controllers::NotificationManager::Notification notif;
             std::array<char, 101> message {"Disconnected\0Bluetooth connection lost\0"};
