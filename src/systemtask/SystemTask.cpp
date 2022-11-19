@@ -438,21 +438,26 @@ void SystemTask::Work() {
         case Messages::BleDisconnect: {
           if (settingsController.GetBleDisconnectAlertOption() == Controllers::Settings::BleDisconnectAlertOption::Timeout5m) {
             if (settingsController.GetPendingBleDisconnectAlert() == false) {
-              // set timeout check
+              // set timeout check. defer this disconnect event to next minute
               settingsController.SetPendingBleDisconnectAlert(true);
               settingsController.SetLastBleDisconnect(dateTimeController.Uptime().count());
               break;
             } else if (dateTimeController.Uptime().count() - settingsController.GetLastBleDisconnect() < 300) {
               // timeout not reached. check again next minute
               break;
-            }
+            } // else: timeout reached, continue
           }
-          settingsController.SetPendingBleDisconnectAlert(false);
           if (settingsController.GetBleDisconnectAlertOption() != Controllers::Settings::BleDisconnectAlertOption::Off) {
             Pinetime::Controllers::NotificationManager::Notification notif;
-            std::array<char, 101> message {"Disconnected\0Bluetooth connection lost\0"};
-            notif.message = message;
-            notif.size = 40;
+            if (settingsController.GetPendingBleDisconnectAlert() == true) {
+              std::array<char, 101> message {"Disconnected\0Bluetooth connection lost 5m ago\0"};
+              notif.message = message;
+              notif.size = 47;
+            } else {
+              std::array<char, 101> message {"Disconnected\0Bluetooth connection lost\0"};
+              notif.message = message;
+              notif.size = 40;
+            }
             notif.category = Pinetime::Controllers::NotificationManager::Categories::SimpleAlert;
             notificationManager.Push(std::move(notif));
             PushMessage(Messages::OnNewNotification);
@@ -460,6 +465,7 @@ void SystemTask::Work() {
           if (settingsController.GetBleDisconnectAlertOption() == Controllers::Settings::BleDisconnectAlertOption::Once) {
             settingsController.SetBleDisconnectAlertOption(Controllers::Settings::BleDisconnectAlertOption::Off);
           }
+          settingsController.SetPendingBleDisconnectAlert(false);
         } break;
         case Messages::BleRadioEnableToggle:
           if (settingsController.GetBleRadioEnabled()) {
