@@ -146,6 +146,7 @@ namespace Pinetime {
       bool isMidnightAlreadyNotified = false;
       bool isHourAlreadyNotified = true;
       bool isHalfHourAlreadyNotified = true;
+      bool isMinuteAlreadyNotified = true;
       System::SystemTask* systemTask = nullptr;
       Controllers::Settings& settingsController;
     };

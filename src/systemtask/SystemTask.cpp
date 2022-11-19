@@ -311,6 +311,9 @@ void SystemTask::Work() {
           ReloadIdleTimer();
           isBleDiscoveryTimerRunning = true;
           bleDiscoveryTimer = 5;
+
+          settingsController.SetPendingBleDisconnectAlert(false);
+
           break;
         case Messages::BleFirmwareUpdateStarted:
           doNotGoToSleep = true;
@@ -433,6 +436,20 @@ void SystemTask::Work() {
           displayApp.PushMessage(Pinetime::Applications::Display::Messages::ShowPairingKey);
           break;
         case Messages::BleDisconnect: {
+          if (settingsController.GetBleDisconnectAlertOption() == Controllers::Settings::BleDisconnectAlertOption::Timeout5m) {
+            if (settingsController.GetPendingBleDisconnectAlert() == false) {
+              // set timeout check
+              settingsController.SetPendingBleDisconnectAlert(true);
+              settingsController.SetLastBleDisconnect(dateTimeController.Uptime().count());
+              break;
+            } else if (dateTimeController.Uptime().count() - settingsController.GetLastBleDisconnect() > 300) {
+              // timeout reached. disable timeout check and continue to send alert
+              settingsController.SetPendingBleDisconnectAlert(false);
+            } else {
+              // timeout not reached. check again next minute
+              break;
+            }
+          }
           if (settingsController.GetBleDisconnectAlertOption() != Controllers::Settings::BleDisconnectAlertOption::Off) {
             Pinetime::Controllers::NotificationManager::Notification notif;
             std::array<char, 101> message {"Disconnected\0Bluetooth connection lost\0"};

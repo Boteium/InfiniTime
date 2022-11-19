@@ -14,7 +14,7 @@ namespace {
   }
 }
 
-constexpr std::array<SettingBleDisconnectAlert::Option, 3> SettingBleDisconnectAlert::options;
+constexpr std::array<SettingBleDisconnectAlert::Option, 4> SettingBleDisconnectAlert::options;
 
 SettingBleDisconnectAlert::SettingBleDisconnectAlert(Pinetime::Applications::DisplayApp* app,
                                                      Pinetime::Controllers::Settings& settingsController)

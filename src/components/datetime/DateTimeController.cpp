@@ -111,6 +111,18 @@ void DateTime::UpdateTime(uint32_t systickCounter) {
     isHalfHourAlreadyNotified = false;
   }
 
+  if (second == 0 && !isMinuteAlreadyNotified) {
+    isMinuteAlreadyNotified = true;
+    if (systemTask != nullptr) {
+      if (settingsController.GetPendingBleDisconnectAlert() == true) {
+        // check bleDisconnectAlert timeout
+        systemTask->PushMessage(System::Messages::BleDisconnect);
+      }
+    }
+  } else if (second != 0) {
+    isMinuteAlreadyNotified = false;
+  }
+
   // Notify new day to SystemTask
   if (hour == 0 and not isMidnightAlreadyNotified) {
     isMidnightAlreadyNotified = true;
