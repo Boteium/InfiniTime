@@ -92,17 +92,17 @@ namespace Pinetime {
       };
 
       void SetPendingBleDisconnectAlert(bool is_enabled) {
-        settings.pendingBleDisconnectAlert = is_enabled;
+        pendingBleDisconnectAlert = is_enabled;
       };
       bool GetPendingBleDisconnectAlert() const {
-        return settings.pendingBleDisconnectAlert;
+        return pendingBleDisconnectAlert;
       };
 
       void SetLastBleDisconnect(uint32_t uptime_seconds) {
-        settings.lastBleDisconnect = uptime_seconds;
+        lastBleDisconnect = uptime_seconds;
       };
       uint32_t GetLastBleDisconnect() const {
-        return settings.lastBleDisconnect;
+        return lastBleDisconnect;
       };
 
       void SetPTSColorTime(Colors colorTime) {
@@ -292,8 +292,6 @@ namespace Pinetime {
         ChimesOption chimesOption = ChimesOption::None;
 
         BleDisconnectAlertOption bleDisconnectAlertOption = BleDisconnectAlertOption::Off;
-        uint32_t lastBleDisconnect = 0;
-        bool pendingBleDisconnectAlert = false;
 
         PineTimeStyle PTS;
 
@@ -314,6 +312,9 @@ namespace Pinetime {
        * to off (false) on every boot because we always want ble to be enabled on startup
        */
       bool bleRadioEnabled = true;
+
+      uint32_t lastBleDisconnect = 0;
+      bool pendingBleDisconnectAlert = false;
 
       void LoadSettingsFromFile();
       void SaveSettingsToFile();
