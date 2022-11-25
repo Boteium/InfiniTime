@@ -10,9 +10,9 @@ PineTime 現在也可以顯示中文了！
 - Two (類似 2048 的遊戲)  
 - 錶面: Casio, InfiniTime, PineTime, Terminal (這幾個很佔空間)  
 
-<img src="https://raw.githubusercontent.com/Boteium/InfiniTime/develop/readme_img/call_demo.jpg" width="30%" align="left">
-<img src="https://raw.githubusercontent.com/Boteium/InfiniTime/develop/readme_img/music_demo.jpg" width="30%" align="left">
-<img src="https://raw.githubusercontent.com/Boteium/InfiniTime/develop/readme_img/notification_demo.jpg" width="30%" align="left">
+<img src="https://raw.githubusercontent.com/Boteium/InfiniTime/traditional_chinese/readme_img/call_demo.jpg" width="30%" align="left">
+<img src="https://raw.githubusercontent.com/Boteium/InfiniTime/traditional_chinese/readme_img/music_demo.jpg" width="30%" align="left">
+<img src="https://raw.githubusercontent.com/Boteium/InfiniTime/traditional_chinese/readme_img/notification_demo.jpg" width="30%" align="left">
 
 ## Infinitime Traditional Chinese fork
 This forks adds about 2500 Traditional Chinese characters, bopomofo, and Japanese kana for Taiwanese user.  
