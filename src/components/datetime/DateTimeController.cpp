@@ -107,6 +107,13 @@ void DateTime::UpdateTime(uint32_t systickCounter) {
     if (systemTask != nullptr) {
       systemTask->PushMessage(System::Messages::OnNewHalfHour);
     }
+    Controllers::Settings::AutoSleepOption* autosleep = settingsController.GetAutoSleep();
+    if (autosleep[0].is_enabled && hour == autosleep[0].hour && minute == autosleep[0].minute) {
+      settingsController.SetNotificationStatus(Controllers::Settings::Notification::Sleep);
+    }
+    if (autosleep[1].is_enabled && hour == autosleep[1].hour && minute == autosleep[1].minute) {
+      settingsController.SetNotificationStatus(Controllers::Settings::Notification::On);
+    }
   } else if (minute != 0 && minute != 30) {
     isHalfHourAlreadyNotified = false;
   }

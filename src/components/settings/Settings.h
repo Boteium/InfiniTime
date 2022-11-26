@@ -39,6 +39,12 @@ namespace Pinetime {
       };
       enum class PTSGaugeStyle : uint8_t { Full, Half, Numeric };
 
+      struct AutoSleepOption {
+        bool is_enabled = false;
+        uint8_t hour = 0;
+        uint8_t minute = 0;
+      };
+
       struct PineTimeStyle {
         Colors ColorTime = Colors::Teal;
         Colors ColorBar = Colors::Teal;
@@ -59,6 +65,20 @@ namespace Pinetime {
 
       void Init();
       void SaveSettings();
+
+      void SetAutoSleep(AutoSleepOption autoSleepOptions[2]) {
+        for (uint8_t i = 0; i < 2; i++) {
+          if (autoSleepOptions[i].is_enabled != settings.autoSleepOptions[i].is_enabled ||
+              autoSleepOptions[i].hour != settings.autoSleepOptions[i].hour ||
+              autoSleepOptions[i].minute != settings.autoSleepOptions[i].minute) {
+            settingsChanged = true;
+          }
+          settings.autoSleepOptions[i] = autoSleepOptions[i];
+        }
+      };
+      AutoSleepOption* GetAutoSleep() {
+        return settings.autoSleepOptions;
+      };
 
       void SetClockFace(uint8_t face) {
         if (face != settings.clockFace) {
@@ -254,7 +274,7 @@ namespace Pinetime {
     private:
       Pinetime::Controllers::FS& fs;
 
-      static constexpr uint32_t settingsVersion = 0x0004;
+      static constexpr uint32_t settingsVersion = 0x0006;
       struct SettingsData {
         uint32_t version = settingsVersion;
         uint32_t stepsGoal = 10000;
@@ -267,6 +287,7 @@ namespace Pinetime {
         ChimesOption chimesOption = ChimesOption::None;
 
         PineTimeStyle PTS;
+        AutoSleepOption autoSleepOptions[2];
 
         WatchFaceInfineat watchFaceInfineat;
 
