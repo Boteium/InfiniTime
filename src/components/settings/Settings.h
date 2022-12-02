@@ -185,10 +185,16 @@ namespace Pinetime {
         if (status != settings.notificationStatus) {
           settingsChanged = true;
         }
+        if (settings.notificationStatus != Notification::Sleep ){
+          prevNotificationStatus = settings.notificationStatus;
+        }
         settings.notificationStatus = status;
       };
       Notification GetNotificationStatus() const {
         return settings.notificationStatus;
+      };
+      Notification GetPrevNotificationStatus() const {
+        return prevNotificationStatus;
       };
 
       void SetScreenTimeOut(uint32_t timeout) {
@@ -298,6 +304,7 @@ namespace Pinetime {
 
       SettingsData settings;
       bool settingsChanged = false;
+      Notification prevNotificationStatus = Notification::On;
 
       uint8_t appMenu = 0;
       uint8_t settingsMenu = 0;

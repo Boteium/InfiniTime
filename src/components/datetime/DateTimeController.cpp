@@ -112,7 +112,7 @@ void DateTime::UpdateTime(uint32_t systickCounter) {
       settingsController.SetNotificationStatus(Controllers::Settings::Notification::Sleep);
     }
     if (autosleep[1].is_enabled && hour == autosleep[1].hour && minute == autosleep[1].minute) {
-      settingsController.SetNotificationStatus(Controllers::Settings::Notification::On);
+      settingsController.SetNotificationStatus(settingsController.GetPrevNotificationStatus());
     }
   } else if (minute != 0 && minute != 30) {
     isHalfHourAlreadyNotified = false;
