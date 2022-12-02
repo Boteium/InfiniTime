@@ -40,8 +40,8 @@ SettingAutoSleep::SettingAutoSleep(Pinetime::Applications::DisplayApp* app, Pine
   lv_obj_set_height(container1, LV_VER_RES - 30); // res - 50
   lv_cont_set_layout(container1, LV_LAYOUT_COLUMN_LEFT);
 
-  char optionName[2][11] = {
-    "Auto Sleep",
+  char optionName[2][12] = {
+    "Start Sleep",
     "Stop Sleep",
   };
 
